@@ -1,0 +1,177 @@
+@import 'tailwindcss';
+
+/* Global tooltip styles */
+.p-tooltip {
+  transition:
+    opacity 0.3s,
+    transform 0.3s;
+  transform: translateY(8px);
+  background-color: #03363d;
+  color: #ffffdb;
+  border-radius: 12px;
+}
+
+.p-tooltip.p-tooltip-active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.p-tooltip .p-tooltip-text {
+  font-size: 0.75rem !important;
+  padding: 0.25rem 0.5rem !important;
+  max-width: 200px;
+  line-height: 1.2;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.p-tooltip.p-tooltip-enter-active {
+  animation: tooltipFadeIn 0.3s;
+}
+
+@keyframes tooltipFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Global button size reduction */
+.p-button {
+  font-size: 0.875rem !important;
+  padding: 0.375rem 0.75rem !important;
+  height: auto !important;
+  min-height: 2.25rem !important;
+}
+
+.p-button.p-button-icon-only {
+  width: 2.25rem !important;
+  height: 2.25rem !important;
+  padding: 0.375rem !important;
+}
+
+.p-button .p-button-icon {
+  font-size: 0.875rem !important;
+}
+
+.p-button.p-button-text {
+  padding: 0.25rem 0.5rem !important;
+}
+
+.p-button .p-button-label {
+  font-size: 0.875rem !important;
+  line-height: 1.25 !important;
+}
+
+/* Responsive paginator styles with dark mode support */
+.p-paginator {
+  @apply flex flex-wrap items-center justify-center gap-1 px-4 py-3 text-sm;
+}
+
+.p-paginator .p-paginator-first,
+.p-paginator .p-paginator-prev,
+.p-paginator .p-paginator-next,
+.p-paginator .p-paginator-last {
+  @apply inline-flex h-8 w-8 items-center justify-center rounded-full transition-colors;
+  @apply text-gray-700 hover:bg-gray-100 hover:text-gray-900;
+  @apply dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white;
+}
+
+.p-paginator .p-paginator-page {
+  @apply inline-flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium transition-colors;
+  @apply text-gray-700 hover:bg-gray-100 hover:text-gray-900;
+  @apply dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white;
+}
+
+.p-dropdown-trigger {
+  @apply text-slate-200;
+}
+
+.p-paginator .p-paginator-page.p-highlight {
+  @apply bg-teal-300 text-white hover:bg-teal-600;
+}
+
+.p-paginator .p-dropdown {
+  @apply h-8 min-w-[5rem] rounded-md border border-gray-300 px-2 py-1 text-sm;
+  @apply dark:border-gray-600 dark:bg-gray-800;
+}
+
+.p-paginator .p-dropdown .p-dropdown-label {
+  @apply py-0.5 text-sm;
+  @apply dark:text-gray-300;
+}
+
+.p-paginator .p-dropdown-panel {
+  @apply border border-gray-200 shadow-md;
+  @apply dark:border-gray-700 dark:bg-gray-800;
+}
+
+.p-paginator .p-dropdown-panel .p-dropdown-item {
+  @apply px-3 py-1.5 text-sm;
+  @apply dark:text-gray-300 dark:hover:bg-gray-700;
+}
+
+.p-paginator .p-paginator-current {
+  @apply px-2 text-sm text-gray-500;
+  @apply dark:text-gray-400;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 640px) {
+  .p-paginator {
+    @apply gap-0.5 px-2 py-2;
+  }
+
+  .p-paginator .p-paginator-first,
+  .p-paginator .p-paginator-last {
+    @apply hidden;
+  }
+
+  .p-paginator .p-paginator-page:not(.p-highlight) {
+    @apply hidden sm:inline-flex;
+  }
+
+  /* Only show current page, prev and next on mobile */
+  .p-paginator .p-paginator-prev,
+  .p-paginator .p-paginator-next,
+  .p-paginator .p-paginator-page.p-highlight {
+    @apply inline-flex;
+  }
+
+  /* Make dropdown smaller on mobile */
+  .p-paginator .p-dropdown {
+    @apply min-w-[4.5rem];
+  }
+
+  .p-paginator .p-paginator-current {
+    @apply hidden sm:block;
+  }
+}
+
+/* Fixed bottom paginator (keep this from your existing style) */
+.fixed-bottom-paginator {
+  @apply sticky bottom-0 z-10 rounded-br-md rounded-bl-md border-t border-gray-200 bg-[#03363d] shadow-md dark:border-gray-700;
+}
+
+.p-dropdown-items-wrapper {
+  @apply max-h-60 overflow-auto rounded bg-slate-500;
+}
+
+.p-dropdown-item {
+  @apply p-1;
+}
+
+.p-focus {
+  @apply bg-[#03363d];
+}
+
+.p-dropdown-item-label {
+  @apply text-slate-100;
+}
+
+.p-image-mask {
+  background: rgba(30, 41, 59, 0.85);
+}
