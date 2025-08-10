@@ -1,6 +1,6 @@
-# My React Vite App
+# TruTrip Technical Assessment
 
-This is a simple React application built using Vite as the build tool. It demonstrates the basic structure of a React app with TypeScript.
+This is a React application for TruTrip technical assessment. Built using Vite as the build tool.
 
 ## Getting Started
 
@@ -82,4 +82,4 @@ To get started with this project, follow these steps:
    https://68975669250b078c20419f42.mockapi.io/tru-trip-test/api/v1/users/:id
    ```
 
-   A Postman collection also included within repository.
+   A Postman collection also included within repository https://github.com/handraromel/trutrip-engineering-technical-test/blob/main/TruTripTest.postman_collection.json.
