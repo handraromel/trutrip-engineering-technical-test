@@ -44,7 +44,7 @@ const Header = () => {
           </div>
 
           {/* Desktop Navigation Menu */}
-          <nav className="hidden items-center space-x-6 md:flex">
+          <nav className="hidden items-center space-x-2 md:flex">
             {menuItems.map((item) => (
               <NavLink
                 key={item.id}

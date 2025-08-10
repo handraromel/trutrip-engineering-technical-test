@@ -1,3 +1,17 @@
+/**
+ * useModal Hook
+ *
+ * Simple hook for managing modal state with open/close/toggle functionality.
+ *
+ * Usage:
+ * const modalInstance = useModal();
+ * modalInstance.open();
+ * modalInstance.close();
+ * modalInstance.toggle();
+ * modalInstance.isOpen
+ *
+ */
+
 import { useState } from 'react';
 
 interface UseModalReturn {

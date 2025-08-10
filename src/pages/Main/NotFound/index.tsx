@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 export const NotFound: React.FC = () => {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-r from-indigo-500 to-purple-600 px-4 text-white">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-r from-teal-500 to-cyan-600 px-4 text-white">
       <i
         className="pi pi-exclamation-triangle animate-pulse text-9xl text-yellow-300"
         style={{ fontSize: '6rem' }}

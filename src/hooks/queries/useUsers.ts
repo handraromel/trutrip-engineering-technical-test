@@ -1,3 +1,15 @@
+/**
+ * User Query Hooks
+ *
+ * Query hooks for user CRUD operations:
+ * - useGetUsers() - Fetch all users
+ * - useGetUser(id, enabled) - Fetch single user by ID
+ * - useCreateUser() - Create new user
+ * - useUpdateUser() - Update existing user
+ * - useDeleteUser() - Delete user
+ *
+ */
+
 import { API_ENDPOINTS } from '@/constants/api';
 import { QUERY_KEY, QUERY_STALE_TIME } from '@/constants/user';
 import { httpService } from '@/services/httpService';
