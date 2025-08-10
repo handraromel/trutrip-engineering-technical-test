@@ -32,7 +32,7 @@ To get started with this project, follow these steps:
 
    Navigate to `http://localhost:3123/` to see your app in action.
 
-5. **API Collection:**
+5. **API Collection (Using [mockapi.io](https://mockapi.io) service):**
 
    Fetch users (GET)
 
