@@ -1,6 +1,6 @@
 import MainLayout from '@/layouts/Main';
 import { LoadingScreen, NotFound } from '@/pages';
-import { routes, Route as RouteType } from '@/routes';
+import { routes } from '@/routes';
 import React, { Suspense } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
@@ -9,7 +9,7 @@ const AppRouter: React.FC = () => {
     <Suspense fallback={<LoadingScreen />}>
       <Routes>
         <Route path="/" element={<Navigate to="/home" replace />} />
-        {routes.map((route: RouteType) => {
+        {routes.map((route) => {
           const Page = route.element;
           return (
             <Route
