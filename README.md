@@ -10,6 +10,9 @@ To get started with this project, follow these steps:
 
    ```bash
    git clone https://github.com/handraromel/trutrip-engineering-technical-test
+   ```
+
+   ```bash
    cd trutrip-engineering-technical-test
    ```
 
