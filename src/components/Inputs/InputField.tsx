@@ -1,9 +1,8 @@
 import { Calendar } from 'primereact/calendar';
-import { Editor } from 'primereact/editor';
 import { InputNumber } from 'primereact/inputnumber';
 import { InputText } from 'primereact/inputtext';
 import { Password } from 'primereact/password';
-import React, { useState } from 'react';
+import React from 'react';
 import { Controller, ControllerRenderProps, useFormContext } from 'react-hook-form';
 import { inputCss } from './styles';
 
@@ -29,7 +28,6 @@ export const InputField: React.FC<FieldInputProps> = ({
   type,
   name,
   placeholder,
-  rows,
   passwordFeedback = false,
   onBlur,
   disabled = false,
@@ -40,7 +38,6 @@ export const InputField: React.FC<FieldInputProps> = ({
     control,
     formState: { errors },
   } = useFormContext();
-  const [editorContent, setEditorContent] = useState<string>('');
   const error = errors[name]?.message as string;
 
   const getInputComponent = (field: ControllerRenderProps<Record<string, FieldValue>, string>) => {
@@ -54,19 +51,6 @@ export const InputField: React.FC<FieldInputProps> = ({
     };
 
     switch (type) {
-      case 'textarea':
-        return (
-          <Editor
-            id={id}
-            value={editorContent}
-            onTextChange={(e) => {
-              setEditorContent(e.htmlValue || '');
-              field.onChange(e.htmlValue || '');
-            }}
-            style={{ height: rows ? `${rows * 40}px` : '280px' }}
-            disabled={disabled}
-          />
-        );
       case 'password':
         return (
           <Password

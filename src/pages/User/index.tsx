@@ -1,18 +1,50 @@
-import React from 'react';
-import Table from '../../components/Table';
-import { useUsers } from '../../hooks/useUsers';
-import { User } from '../../types/user';
-import { userTableColumns } from './columns';
+import { ConfirmationDialog, Table } from '@/components';
+import { useDeleteUser, useGetUsers, useModal } from '@/hooks';
+import { User } from '@/types/user';
+import { sortUsersByLatest } from '@/utils';
+import React, { useState } from 'react';
+import userTableColumns from './Columns';
+import UserDetails from './Details';
+import Submission from './Submission';
 
 export const UserTable: React.FC = () => {
-  const { data: users, isLoading } = useUsers();
+  const { data: users, isLoading } = useGetUsers();
+  const { mutateAsync: deleteUser, isPending: isDeleting } = useDeleteUser();
+  const detailModal = useModal();
+  const submissionModal = useModal();
+  const deleteConfirmationModal = useModal();
+  const [singleUser, setSingleUser] = useState<User | null>(null);
+
+  const handleViewUser = (user: User) => {
+    detailModal.open();
+    setSingleUser(user);
+  };
+
+  const handleOpenSubmission = (user: User | null) => {
+    submissionModal.open();
+    setSingleUser(user);
+  };
+
+  const handleOpenDeleteConfirmation = (user: User | null) => {
+    deleteConfirmationModal.open();
+    setSingleUser(user);
+  };
 
   return (
-    <div className="p-6">
-      <Table<User>
+    <>
+      <Table
         title={'Manage Users'}
-        data={users || []}
+        data={sortUsersByLatest(users || [])}
         columns={userTableColumns}
+        mainActions={[
+          {
+            icon: 'pi pi-plus',
+            label: 'Add User',
+            tooltip: 'Add a new user',
+            severity: 'success',
+            onClick: () => handleOpenSubmission(null),
+          },
+        ]}
         loading={isLoading}
         key={'id'}
         globalSearchFields={['name', 'origin']}
@@ -22,22 +54,46 @@ export const UserTable: React.FC = () => {
             {
               icon: 'pi pi-eye',
               tooltip: 'View User',
-              onClick: (rowData) => console.log('View', rowData),
+              severity: 'info',
+              onClick: (rowData) => handleViewUser(rowData),
             },
             {
               icon: 'pi pi-pencil',
               tooltip: 'Edit User',
-              onClick: (rowData) => console.log('Edit', rowData),
+              severity: 'help',
+              onClick: (rowData) => handleOpenSubmission(rowData),
             },
             {
               icon: 'pi pi-trash',
               tooltip: 'Delete User',
-              onClick: (rowData) => console.log('Delete', rowData),
+              severity: 'danger',
+              onClick: (rowData) => handleOpenDeleteConfirmation(rowData),
             },
           ],
         }}
       />
-    </div>
+      <UserDetails
+        userId={singleUser?.id || ''}
+        isOpen={detailModal.isOpen}
+        onClose={detailModal.close}
+      />
+      <Submission
+        visible={submissionModal.isOpen}
+        onHide={submissionModal.close}
+        user={singleUser}
+      />
+      <ConfirmationDialog
+        visible={deleteConfirmationModal.isOpen}
+        onHide={deleteConfirmationModal.close}
+        onConfirm={() => deleteUser(singleUser?.id || '')}
+        message={`Are you sure you want to delete this user?`}
+        header="Delete User"
+        acceptLabel="Delete"
+        rejectLabel="Cancel"
+        disabled={isDeleting}
+        loading={isDeleting}
+      />
+    </>
   );
 };
 

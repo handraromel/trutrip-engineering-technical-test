@@ -10,3 +10,8 @@ export interface UsersResponse {
   users: User[];
   total: number;
 }
+
+export type UserSubmissionValues = {
+  name: string;
+  origin: string;
+};

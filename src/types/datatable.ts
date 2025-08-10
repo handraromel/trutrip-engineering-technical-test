@@ -1,47 +1,63 @@
-import { CSSProperties, ReactNode } from 'react';
-
-// Generic DataTable column interface
-export interface DataTableColumn<T = Record<string, unknown>> {
-  field: keyof T | string;
+import { ColumnProps } from 'primereact/column';
+import React from 'react';
+export interface ColumnDef<T> extends Omit<ColumnProps, 'field' | 'body'> {
+  field?: keyof T;
   header: string;
-  body?: (rowData: T) => ReactNode;
+  body?: (data: T) => React.ReactNode;
   sortable?: boolean;
-  filter?: boolean;
-  filterPlaceholder?: string;
-  style?: CSSProperties;
+  style?: React.CSSProperties;
+  width?: string;
+}
+
+export interface TableMainAction {
+  icon?: string;
+  label?: string;
+  tooltip?: string;
+  severity?: 'secondary' | 'success' | 'info' | 'warning' | 'danger' | 'help' | 'contrast';
+  onClick: () => void;
+  tooltipOptions?: object;
   className?: string;
-  hidden?: boolean;
+  disabled?: boolean;
+  raised?: boolean;
+  outlined?: boolean;
+  rounded?: boolean;
+  text?: boolean;
+  visible?: boolean | (() => boolean);
 }
 
-// DataTable filter option
-export interface FilterOption {
-  label: string;
-  value: string | number;
+export interface ActionButton<T> {
+  icon: string | ((rowData: T) => string);
+  tooltip?: string | ((rowData: T) => string);
+  severity?:
+    | 'success'
+    | 'secondary'
+    | 'info'
+    | 'warning'
+    | 'danger'
+    | 'help'
+    | 'contrast'
+    | ((
+        rowData: T,
+      ) => 'success' | 'secondary' | 'info' | 'warning' | 'danger' | 'help' | 'contrast');
+  onClick: (rowData: T) => void;
+  disabled?: (rowData: T) => boolean;
+  visible?: (rowData: T) => boolean;
+  className?: string;
+  tooltipOptions?: object;
 }
 
-// DataTable pagination event
-export interface PaginationEvent {
-  first: number;
-  rows: number;
-  page?: number;
-  pageCount?: number;
-}
-
-// Generic DataTable props
-export interface DataTableProps<T = Record<string, unknown>> {
+export interface TableProps<T> {
   data: T[];
-  columns: DataTableColumn<T>[];
+  columns: ColumnDef<T>[];
+  title: string;
   loading?: boolean;
-  error?: Error | string | null;
-  paginator?: boolean;
-  rows?: number;
-  globalFilterFields?: string[];
-  emptyMessage?: string;
-  className?: string;
-  header?: ReactNode;
-  showGlobalFilter?: boolean;
-  globalFilterPlaceholder?: string;
-  stripedRows?: boolean;
-  showGridlines?: boolean;
-  showRowNumbers?: boolean;
+  globalSearchFields?: Array<keyof T>;
+  mainActions?: TableMainAction[];
+  hideSearch?: boolean;
+  actions?: {
+    header?: string;
+    buttons: ActionButton<T>[];
+    align?: 'left' | 'center' | 'right';
+  };
+  dataKey?: string;
 }

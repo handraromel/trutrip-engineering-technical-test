@@ -1,4 +1,5 @@
 import '@/assets/styles/datatable.css';
+import { ColumnDef, TableProps } from '@/types';
 import { FilterMatchMode } from 'primereact/api';
 import { Button } from 'primereact/button';
 import { Column, ColumnProps } from 'primereact/column';
@@ -6,58 +7,14 @@ import { DataTable } from 'primereact/datatable';
 import { InputText } from 'primereact/inputtext';
 import React, { JSX, useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 
-export interface ColumnDef<T> extends Omit<ColumnProps, 'field' | 'body'> {
-  field?: keyof T;
-  header: string;
-  body?: (data: T) => React.ReactNode;
-  sortable?: boolean;
-  style?: React.CSSProperties;
-  width?: string;
-}
-
-export interface ActionButton<T> {
-  icon: string | ((rowData: T) => string);
-  tooltip?: string | ((rowData: T) => string);
-  severity?:
-    | 'success'
-    | 'secondary'
-    | 'info'
-    | 'warning'
-    | 'danger'
-    | 'help'
-    | 'contrast'
-    | ((
-        rowData: T,
-      ) => 'success' | 'secondary' | 'info' | 'warning' | 'danger' | 'help' | 'contrast');
-  onClick: (rowData: T) => void;
-  disabled?: (rowData: T) => boolean;
-  visible?: (rowData: T) => boolean;
-  className?: string;
-  tooltipOptions?: object;
-}
-
-export interface TableProps<T> {
-  data: T[];
-  columns: ColumnDef<T>[];
-  title: string;
-  loading?: boolean;
-  globalSearchFields?: Array<keyof T>;
-  hideSearch?: boolean;
-  actions?: {
-    header?: string;
-    buttons: ActionButton<T>[];
-    align?: 'left' | 'center' | 'right';
-  };
-  dataKey?: string;
-}
-
-const Table = <T extends { [key: string]: unknown }>({
+export const Table = <T extends { [key: string]: unknown }>({
   data,
   columns,
   title,
   loading = false,
   globalSearchFields = [],
   hideSearch = false,
+  mainActions = [],
   actions,
   dataKey,
 }: TableProps<T>) => {
@@ -88,7 +45,7 @@ const Table = <T extends { [key: string]: unknown }>({
 
       return (
         <div
-          className={`flex gap-2 px-8 ${actions.align === 'center' ? 'justify-center' : actions.align === 'right' ? 'justify-end' : 'justify-start'}`}
+          className={`flex gap-2 ${actions.align === 'center' ? 'justify-center' : actions.align === 'right' ? 'justify-end' : 'justify-start'}`}
         >
           {actions.buttons.map((button, index) => {
             const isVisible = button.visible ? button.visible(rowData) : true;
@@ -170,7 +127,7 @@ const Table = <T extends { [key: string]: unknown }>({
 
   const renderHeader = () => {
     return (
-      <div className="mb-5 flex flex-col flex-wrap justify-between md:flex-row md:items-center">
+      <div className="mb-2 flex flex-col flex-wrap justify-between md:flex-row md:items-center">
         <div className="flex flex-col">
           <h2 className="text-xl font-bold">
             <p>{title}</p>
@@ -180,10 +137,9 @@ const Table = <T extends { [key: string]: unknown }>({
           </h2>
         </div>
 
-        <div className="mt-2 flex flex-col flex-wrap gap-2 md:flex-row">
+        <div className="flex flex-wrap items-center gap-2 max-sm:mt-2">
           {!hideSearch && (
-            <div className="p-input-icon-left rounded border-1 border-teal-200 px-1">
-              <i className="pi pi-search text-gray-500" />
+            <div className="p-input-icon-left">
               <InputText
                 value={globalFilterValue}
                 onChange={onGlobalFilterChange}
@@ -193,6 +149,37 @@ const Table = <T extends { [key: string]: unknown }>({
               />
             </div>
           )}
+
+          <div className="flex flex-wrap justify-end gap-3">
+            {mainActions
+              .filter((action) => {
+                if (typeof action.visible === 'function') {
+                  return action.visible();
+                }
+                return action.visible !== false;
+              })
+              .map((action, index) => {
+                return (
+                  <Button
+                    key={index}
+                    label={action.label}
+                    icon={action.icon}
+                    rounded={action.rounded}
+                    raised={action.raised}
+                    outlined={action.outlined}
+                    text={action.text}
+                    size="small"
+                    severity={action.severity || 'info'}
+                    aria-label={action.tooltip || action.icon}
+                    tooltip={action.tooltip}
+                    tooltipOptions={action.tooltipOptions || { position: 'top' }}
+                    onClick={action.onClick}
+                    className={`max-h-[35px] ${action.className || ''}`}
+                    disabled={action.disabled}
+                  />
+                );
+              })}
+          </div>
         </div>
       </div>
     );
@@ -233,7 +220,7 @@ const Table = <T extends { [key: string]: unknown }>({
   };
 
   return (
-    <div ref={tableContainerRef} className="flex h-full flex-col overflow-hidden">
+    <div ref={tableContainerRef} className="flex h-full w-full flex-col overflow-hidden">
       <DataTable
         value={data}
         paginator={true}
@@ -262,15 +249,13 @@ const Table = <T extends { [key: string]: unknown }>({
         className="table-with-fixed-paginator"
         pt={{
           tbody: { className: 'text-[13px]' },
-          headerRow: { className: 'text-[14px] font-semibold h-[40px] bg-slate-100' },
-          root: { className: 'flex flex-col h-full' },
-          wrapper: {
-            className: 'flex-grow rounded-tl-md rounded-tr-md border border-slate-200',
+          thead: { className: 'h-[56px]' },
+          headerRow: { className: 'text-[14px] font-semibold' },
+          paginator: { root: { className: 'sticky-paginator' } },
+          root: {
+            className: 'flex flex-col h-full rounded-md border-2 border-gray-200',
           },
-          bodyRow: { className: 'border-b border-slate-200' },
-          column: { headerCell: { className: 'p-2' }, bodyCell: { className: 'px-2' } },
-          emptyMessage: { className: 'text-center text-gray-500 h-[400px]' },
-          loadingIcon: { className: 'w-7 h-7' },
+          wrapper: { className: 'flex-grow' },
         }}
       >
         {displayColumns.map((col, index) => (

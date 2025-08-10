@@ -34,7 +34,7 @@ export const Modal: React.FC<ModalProps> = ({
 
   // Custom header content as ReactNode
   const customHeader = (
-    <div className="border-bottom-1 surface-border flex w-full items-center justify-between p-4">
+    <div className="border-bottom-1 surface-border flex w-full items-center justify-between">
       <h5 className="m-0 text-xl font-medium">{header}</h5>
       <div className="flex items-center">
         {icons}
@@ -63,6 +63,11 @@ export const Modal: React.FC<ModalProps> = ({
       showHeader={true}
       closable={false}
       header={customHeader}
+      pt={{
+        root: {
+          className: 'md:min-w-[600px] min-w-[200px] min-h-[220px] max-sm:mx-2',
+        },
+      }}
     >
       {children}
     </Dialog>

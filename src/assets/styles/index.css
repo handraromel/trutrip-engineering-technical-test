@@ -1,14 +1,21 @@
 @import 'tailwindcss';
+@custom-variant dark (&:where(.dark, .dark *));
+
+.p-datatable .p-datatable-tbody > tr.p-highlight {
+  @apply bg-teal-500/10;
+}
+
+.p-datatable .p-datatable-tbody > tr:hover {
+  @apply bg-teal-500/5;
+}
 
 /* Global tooltip styles */
 .p-tooltip {
+  opacity: 0;
   transition:
     opacity 0.3s,
     transform 0.3s;
   transform: translateY(8px);
-  background-color: #03363d;
-  color: #ffffdb;
-  border-radius: 12px;
 }
 
 .p-tooltip.p-tooltip-active {
@@ -77,46 +84,47 @@
 .p-paginator .p-paginator-last {
   @apply inline-flex h-8 w-8 items-center justify-center rounded-full transition-colors;
   @apply text-gray-700 hover:bg-gray-100 hover:text-gray-900;
-  @apply dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white;
 }
 
 .p-paginator .p-paginator-page {
   @apply inline-flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium transition-colors;
   @apply text-gray-700 hover:bg-gray-100 hover:text-gray-900;
-  @apply dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white;
 }
 
-.p-dropdown-trigger {
-  @apply text-slate-200;
+.p-datatable.p-datatable-sm .p-datatable-tbody > tr > td {
+  @apply py-[2px];
 }
 
 .p-paginator .p-paginator-page.p-highlight {
-  @apply bg-teal-300 text-white hover:bg-teal-600;
+  @apply bg-teal-500 text-white hover:bg-teal-600;
 }
 
 .p-paginator .p-dropdown {
   @apply h-8 min-w-[5rem] rounded-md border border-gray-300 px-2 py-1 text-sm;
-  @apply dark:border-gray-600 dark:bg-gray-800;
 }
 
 .p-paginator .p-dropdown .p-dropdown-label {
   @apply py-0.5 text-sm;
-  @apply dark:text-gray-300;
 }
 
 .p-paginator .p-dropdown-panel {
   @apply border border-gray-200 shadow-md;
-  @apply dark:border-gray-700 dark:bg-gray-800;
 }
 
 .p-paginator .p-dropdown-panel .p-dropdown-item {
   @apply px-3 py-1.5 text-sm;
-  @apply dark:text-gray-300 dark:hover:bg-gray-700;
+}
+
+.p-dropdown-item.p-highlight {
+  @apply bg-teal-500 text-white;
+}
+
+.p-dropdown-item.p-highlight .p-focus {
+  @apply border-0 outline-0;
 }
 
 .p-paginator .p-paginator-current {
   @apply px-2 text-sm text-gray-500;
-  @apply dark:text-gray-400;
 }
 
 /* Mobile responsive adjustments */
@@ -153,25 +161,5 @@
 
 /* Fixed bottom paginator (keep this from your existing style) */
 .fixed-bottom-paginator {
-  @apply sticky bottom-0 z-10 rounded-br-md rounded-bl-md border-t border-gray-200 bg-[#03363d] shadow-md dark:border-gray-700;
-}
-
-.p-dropdown-items-wrapper {
-  @apply max-h-60 overflow-auto rounded bg-slate-500;
-}
-
-.p-dropdown-item {
-  @apply p-1;
-}
-
-.p-focus {
-  @apply bg-[#03363d];
-}
-
-.p-dropdown-item-label {
-  @apply text-slate-100;
-}
-
-.p-image-mask {
-  background: rgba(30, 41, 59, 0.85);
+  @apply sticky bottom-0 z-10 border-t border-gray-200 bg-white;
 }

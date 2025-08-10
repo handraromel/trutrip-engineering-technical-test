@@ -1,6 +1,7 @@
+import { DataTableColumn } from '@/types/datatable';
+import { User } from '@/types/user';
+import { formatDateDisplay } from '@/utils/dateUtils';
 import { Image } from 'primereact/image';
-import { DataTableColumn } from '../../types/datatable';
-import { User } from '../../types/user';
 
 // Avatar column template
 const avatarTemplate = (user: User) => {
@@ -12,7 +13,7 @@ const avatarTemplate = (user: User) => {
 };
 
 // User table column definitions
-export const userTableColumns: DataTableColumn<User>[] = [
+const userTableColumns: DataTableColumn<User>[] = [
   {
     field: 'name',
     header: 'Name',
@@ -36,8 +37,8 @@ export const userTableColumns: DataTableColumn<User>[] = [
     header: 'Created Date',
     sortable: true,
     style: { minWidth: '180px' },
+    body: (rowData) => formatDateDisplay(rowData.createdAt),
   },
 ];
 
-// Global filter fields for user table
-export const userGlobalFilters: string[] = ['name', 'origin'];
+export default userTableColumns;

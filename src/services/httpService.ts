@@ -1,7 +1,7 @@
 import { API_BASE_URL } from '../constants/api';
 
 // HTTP method types
-type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
+type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
 // Request options interface
 interface RequestOptions {
@@ -34,7 +34,7 @@ const httpRequest = async <T>(endpoint: string, options: RequestOptions = {}): P
       throw new Error(`HTTP ${response.status}: ${response.statusText}`);
     }
 
-    // Handle empty responses (like 204 No Content)
+    // Handle empty responses
     const contentType = response.headers.get('content-type');
     if (contentType && contentType.includes('application/json')) {
       return await response.json();
@@ -62,7 +62,6 @@ export const httpService = {
     httpRequest<T>(endpoint, { method: 'DELETE', headers }),
 };
 
-// Backward compatibility - you can remove these if not needed elsewhere
 export const fetchData = httpService.get;
 export const createData = httpService.post;
 export const updateData = httpService.put;
