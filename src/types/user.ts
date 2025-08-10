@@ -1,4 +1,4 @@
-export interface User extends Record<string, unknown> {
+export interface User {
   id: string;
   createdAt: string;
   name: string;

@@ -46,10 +46,15 @@ export const useUpdateUser = () => {
   return useMutation({
     mutationFn: ({ userId, data }: { userId: string; data: UserSubmissionValues }) =>
       httpService.put<UserSubmissionValues>(`${API_ENDPOINTS.USERS}/${userId}`, data),
-    onSuccess: () => {
+    onSuccess: (_, { userId }) => {
       // Invalidate and refetch users list
       queryClient.invalidateQueries({
         queryKey: QUERY_KEYS.USERS,
+      });
+
+      // Invalidate and refetch the specific user query
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.USERS, userId],
       });
     },
   });
