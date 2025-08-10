@@ -87,4 +87,55 @@ export default [
       },
     },
   },
+  // Test files configuration
+  {
+    files: ['**/*.{test,spec}.{ts,tsx}', '**/__tests__/**/*.{ts,tsx}'],
+    languageOptions: {
+      parser: tsParser,
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true,
+        },
+        ecmaVersion: 12,
+        sourceType: 'module',
+        projectService: true,
+      },
+      globals: {
+        ...globals.browser,
+        ...globals.es2021,
+        ...globals.jest,
+      },
+    },
+    plugins: {
+      react,
+      '@typescript-eslint': typescript,
+      'unused-imports': unusedImports,
+    },
+    rules: {
+      ...typescriptConfig.rules,
+      ...reactConfig.rules,
+      'no-console': ['error', { allow: ['error', 'warn'] }],
+      'react/react-in-jsx-scope': 'off',
+      'unused-imports/no-unused-imports': 'error',
+      'unused-imports/no-unused-vars': [
+        'warn',
+        {
+          vars: 'all',
+          varsIgnorePattern: '^_',
+          args: 'after-used',
+          argsIgnorePattern: '^_',
+        },
+      ],
+      'react/prop-types': 'off',
+      '@typescript-eslint/no-explicit-any': 'error',
+    },
+    settings: {
+      'import/resolver': {
+        typescript: {},
+      },
+      react: {
+        version: 'detect',
+      },
+    },
+  },
 ];

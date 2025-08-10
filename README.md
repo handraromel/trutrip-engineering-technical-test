@@ -83,3 +83,19 @@ To get started with this project, follow these steps:
    ```
 
    A Postman collection also included within repository https://github.com/handraromel/trutrip-engineering-technical-test/blob/main/TruTripTest.postman_collection.json.
+
+6. **Running Test Case:**
+   Current test cases are available within the hooks for useModal and useUsers query.
+   To verbosely run test case for each hook file:
+
+   useUsers query:
+
+   ```bash
+   npm test -- --testPathPatterns=useUsers.test.ts
+   ```
+
+   useModal:
+
+   ```bash
+   npm test -- --testPathPatterns=useModal.test.ts
+   ```
