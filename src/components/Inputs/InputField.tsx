@@ -1,3 +1,5 @@
+import { INPUT_DATE_FORMAT } from '@/constants';
+import { FieldInputProps, FieldValue } from '@/types';
 import { Calendar } from 'primereact/calendar';
 import { InputNumber } from 'primereact/inputnumber';
 import { InputText } from 'primereact/inputtext';
@@ -5,22 +7,6 @@ import { Password } from 'primereact/password';
 import React from 'react';
 import { Controller, ControllerRenderProps, useFormContext } from 'react-hook-form';
 import { inputCss } from './styles';
-
-type FieldValue = string | number | Date | null;
-
-interface FieldInputProps {
-  id: string;
-  label: string;
-  type: 'text' | 'textarea' | 'datepicker' | 'password' | 'number';
-  name: string;
-  placeholder?: string;
-  rows?: number;
-  passwordFeedback?: boolean;
-  onBlur?: (value: string) => void | Promise<void>;
-  disabled?: boolean;
-  numericOnly?: boolean;
-  maxDate?: Date;
-}
 
 export const InputField: React.FC<FieldInputProps> = ({
   id,
@@ -77,7 +63,7 @@ export const InputField: React.FC<FieldInputProps> = ({
               field.onChange(formattedDate);
             }}
             onBlur={field.onBlur}
-            dateFormat="yy MM dd"
+            dateFormat={INPUT_DATE_FORMAT}
             placeholder={placeholder}
             invalid={hasError}
             className="p-inputtext-sm w-full"

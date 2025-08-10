@@ -1,4 +1,4 @@
-import { DataTableColumn } from '@/types/datatable';
+import { ColumnDef } from '@/types/datatable';
 import { User } from '@/types/user';
 import { formatDateDisplay } from '@/utils/dateUtils';
 import { Image } from 'primereact/image';
@@ -13,7 +13,7 @@ const avatarTemplate = (user: User) => {
 };
 
 // User table column definitions
-const userTableColumns: DataTableColumn<User>[] = [
+const userTableColumns: ColumnDef<User>[] = [
   {
     field: 'name',
     header: 'Name',

@@ -1,17 +1,5 @@
+import { ConfirmationProps } from '@/types';
 import { ConfirmDialog } from 'primereact/confirmdialog';
-
-interface ConfirmationProps {
-  visible: boolean;
-  onHide: () => void;
-  onConfirm: () => void;
-  message: string;
-  header?: string;
-  icon?: string;
-  acceptLabel?: string;
-  rejectLabel?: string;
-  loading?: boolean;
-  disabled?: boolean;
-}
 
 export const ConfirmationDialog = ({
   visible,

@@ -1,4 +1,5 @@
 import '@/assets/styles/datatable.css';
+import { DATATABLE_CONFIG } from '@/constants';
 import { ColumnDef, TableProps } from '@/types';
 import { FilterMatchMode } from 'primereact/api';
 import { Button } from 'primereact/button';
@@ -7,7 +8,7 @@ import { DataTable } from 'primereact/datatable';
 import { InputText } from 'primereact/inputtext';
 import React, { JSX, useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 
-export const Table = <T extends { [key: string]: unknown }>({
+const Table = <T extends { [key: string]: unknown }>({
   data,
   columns,
   title,
@@ -228,7 +229,7 @@ export const Table = <T extends { [key: string]: unknown }>({
         paginatorPosition="bottom"
         first={first}
         rows={rows}
-        rowsPerPageOptions={[5, 10, 25, 50, 100]}
+        rowsPerPageOptions={DATATABLE_CONFIG.rowsPerPageOptions}
         onPage={(e) => {
           setFirst(e.first);
           setRows(e.rows);

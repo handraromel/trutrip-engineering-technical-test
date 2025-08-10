@@ -1,4 +1,5 @@
-import { ConfirmationDialog, Table } from '@/components';
+import { ConfirmationDialog } from '@/components';
+import Table from '@/components/Table';
 import { useDeleteUser, useGetUsers, useModal } from '@/hooks';
 import { User } from '@/types/user';
 import { sortUsersByLatest } from '@/utils';
@@ -23,6 +24,12 @@ export const UserTable: React.FC = () => {
   const handleOpenSubmission = (user: User | null) => {
     submissionModal.open();
     setSingleUser(user);
+  };
+
+  const handleDeleteUser = async () => {
+    await deleteUser(singleUser?.id || '');
+    deleteConfirmationModal.close();
+    setSingleUser(null);
   };
 
   const handleOpenDeleteConfirmation = (user: User | null) => {
@@ -85,7 +92,7 @@ export const UserTable: React.FC = () => {
       <ConfirmationDialog
         visible={deleteConfirmationModal.isOpen}
         onHide={deleteConfirmationModal.close}
-        onConfirm={() => deleteUser(singleUser?.id || '')}
+        onConfirm={handleDeleteUser}
         message={`Are you sure you want to delete this user?`}
         header="Delete User"
         acceptLabel="Delete"

@@ -1,14 +1,5 @@
-import { API_BASE_URL } from '../constants/api';
-
-// HTTP method types
-type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
-
-// Request options interface
-interface RequestOptions {
-  method?: HttpMethod;
-  headers?: Record<string, string>;
-  body?: unknown;
-}
+import { API_BASE_URL } from '@/constants';
+import { RequestOptions } from '@/types/httpRequest';
 
 // Generic HTTP request function
 const httpRequest = async <T>(endpoint: string, options: RequestOptions = {}): Promise<T> => {

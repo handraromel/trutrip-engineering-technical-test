@@ -11,7 +11,7 @@ type DetailsModalProps = {
 };
 
 const UserDetails: React.FC<DetailsModalProps> = ({ userId, isOpen, onClose }) => {
-  const { data: user } = useGetUser(userId);
+  const { data: user } = useGetUser(userId, isOpen);
 
   return (
     <div>

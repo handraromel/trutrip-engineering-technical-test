@@ -1,9 +1,6 @@
-import React, { lazy } from 'react';
+import { Route } from '@/types';
+import { lazy } from 'react';
 
-export interface Route {
-  path: string;
-  element: React.ComponentType;
-}
 const HomePage = lazy(() => import('@/pages/Main/Home'));
 const NotFound = lazy(() => import('@/pages/Main/NotFound'));
 const UserView = lazy(() => import('@/pages/User'));

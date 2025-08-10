@@ -1,29 +1,27 @@
 import { API_ENDPOINTS } from '@/constants/api';
+import { QUERY_KEY, QUERY_STALE_TIME } from '@/constants/user';
 import { httpService } from '@/services/httpService';
 import { User, UserSubmissionValues } from '@/types/user';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 // Query keys for User
-export const QUERY_KEYS = {
-  USERS: ['users'] as const,
-} as const;
 
 export const useGetUsers = () => {
   return useQuery({
-    queryKey: QUERY_KEYS.USERS,
+    queryKey: [QUERY_KEY],
     queryFn: () => httpService.get<User[]>(API_ENDPOINTS.USERS),
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    staleTime: QUERY_STALE_TIME,
     refetchOnWindowFocus: false,
   });
 };
 
-export const useGetUser = (id: string) => {
+export const useGetUser = (id: string, enabled: boolean) => {
   return useQuery({
-    queryKey: [QUERY_KEYS.USERS, id],
+    queryKey: [QUERY_KEY, id],
     queryFn: () => httpService.get<User>(`${API_ENDPOINTS.USERS}/${id}`),
-    enabled: !!id,
-    staleTime: 5 * 60 * 1000,
+    staleTime: QUERY_STALE_TIME,
     refetchOnWindowFocus: false,
+    enabled,
   });
 };
 
@@ -35,7 +33,7 @@ export const useCreateUser = () => {
       httpService.post<UserSubmissionValues>(API_ENDPOINTS.USERS, data),
     onSuccess: () => {
       // Invalidate and refetch users list
-      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.USERS });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY] });
     },
   });
 };
@@ -49,12 +47,12 @@ export const useUpdateUser = () => {
     onSuccess: (_, { userId }) => {
       // Invalidate and refetch users list
       queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS.USERS,
+        queryKey: [QUERY_KEY],
       });
 
       // Invalidate and refetch the specific user query
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.USERS, userId],
+        queryKey: [QUERY_KEY, userId],
       });
     },
   });
@@ -65,10 +63,13 @@ export const useDeleteUser = () => {
 
   return useMutation({
     mutationFn: (userId: string) => httpService.delete(`${API_ENDPOINTS.USERS}/${userId}`),
-    onSuccess: () => {
+    onSuccess: (_, userId) => {
+      // Remove the specific user query from cache
+      queryClient.removeQueries({ queryKey: [QUERY_KEY, userId] });
+
       // Invalidate and refetch users list
       queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS.USERS,
+        queryKey: [QUERY_KEY],
       });
     },
   });

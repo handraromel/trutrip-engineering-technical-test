@@ -7,6 +7,8 @@ export interface ColumnDef<T> extends Omit<ColumnProps, 'field' | 'body'> {
   sortable?: boolean;
   style?: React.CSSProperties;
   width?: string;
+  className?: string;
+  hidden?: boolean;
 }
 
 export interface TableMainAction {
