@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 export const HomePage: React.FC = () => {
   const navigate = useNavigate();
 
-  const handleGoToAssessment = () => {
+  const handleGoToUsersPage = () => {
     navigate('/users');
   };
 
@@ -17,7 +17,7 @@ export const HomePage: React.FC = () => {
       </p>
       <button
         className="mt-6 cursor-pointer rounded bg-teal-500 px-4 py-2 text-white hover:bg-teal-700"
-        onClick={handleGoToAssessment}
+        onClick={handleGoToUsersPage}
       >
         Go to Users Management
       </button>
